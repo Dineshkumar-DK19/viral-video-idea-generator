@@ -1,10 +1,22 @@
 @import "tailwindcss";
 
-body {
+/* 1. Lock the Viewport and stop the "Bounce" */
+html, body {
   margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%; /* Required to make min-height: 100% work on children */
+  overflow-x: hidden;
+  overscroll-behavior-y: none; /* <--- THIS stops the top/bottom movement */
+  -webkit-font-smoothing: antialiased;
 }
 
 #root {
   width: 100%;
-  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
+
+/* 2. Fix for Tailwind v4 Dark Mode */
+@variant dark (&:where(.dark, .dark *));
