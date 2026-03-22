@@ -6,10 +6,14 @@ const App = () => {
   const [currentPage, setCurrentPage] = useState('landing') // 'landing' or 'app'
 
   const handleNavigateToApp = () => {
+    const root = document.getElementById('root');
+    if (root) root.scrollIntoView({ behavior: 'smooth', block: 'start' });
     setCurrentPage('app')
   }
 
   const handleNavigateToLanding = () => {
+    const root = document.getElementById('root');
+    if (root) root.scrollIntoView({ behavior: 'smooth', block: 'start' });
     setCurrentPage('landing')
   }
 

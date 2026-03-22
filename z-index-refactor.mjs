@@ -1,4 +1,39 @@
-import { useState, useEffect } from 'react'
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+function fixZIndexes() {
+  const landingFile = path.join(__dirname, 'src/components/Landing.jsx');
+  let landing = fs.readFileSync(landingFile, 'utf8');
+
+  // TrustSection: The gradient was z-10 and marquee had no z-index, hiding the text.
+  // Make gradient z-10 and marquee z-20 relative.
+  landing = landing.replace(
+    'className="flex gap-12 animate-marquee whitespace-nowrap"',
+    'className="flex gap-12 animate-marquee whitespace-nowrap relative z-20"'
+  );
+  
+  // Make sure TrustSection background is properly ordered
+  landing = landing.replace(
+    'className="absolute inset-0 bg-gradient-to-r from-slate-900 via-transparent to-slate-900 z-10 pointer-events-none"',
+    'className="absolute inset-0 bg-gradient-to-r from-slate-900 via-transparent to-slate-900 z-10 pointer-events-none"'
+  );
+
+  // DemoModal: Make sure z-index is explicitly top level
+  landing = landing.replace(
+    'style={{ zIndex: 99999 }}',
+    'style={{ zIndex: 100 }}'
+  );
+
+  fs.writeFileSync(landingFile, landing);
+
+
+  // Rebuild Navbar fully to include the lost mobile menu and fix its z-index
+  const navbarFile = path.join(__dirname, 'src/components/Navbar.jsx');
+  const navbarContent = `import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Zap } from 'lucide-react'
 
@@ -14,24 +49,24 @@ const Navbar = ({ onNavigateToApp, onNavigateToLanding, isAppPage = false }) => 
   }, [])
 
   const navItems = [
-    { id: 'home', label: 'Overview', href: '/' },
-    { id: 'features', label: 'Capabilities', href: '#features' },
-    { id: 'process', label: 'Workflow', href: '#how-it-works' },
-    { id: 'testimonials', label: 'Wall of Love', href: '#testimonials' },
-    { id: 'roadmap', label: 'Vision', href: '#roadmap' },
-    { id: 'app', label: 'AI Studio', href: '/' }
+    { label: 'Home', href: '/' },
+    { label: 'Features', href: '#features' },
+    { label: 'How It Works', href: '#how-it-works' },
+    { label: 'Testimonials', href: '#testimonials' },
+    { label: 'Roadmap', href: '#roadmap' },
+    { label: 'Idea Generator', href: '/' }
   ]
 
-  const handleNavClick = (e, href, id) => {
+  const handleNavClick = (e, href, label) => {
     e.preventDefault()
     setMobileMenuOpen(false)
 
-    if (id === 'app') {
+    if (label === 'Idea Generator') {
       if (onNavigateToApp) onNavigateToApp()
       return
     }
 
-    if (id === 'home') {
+    if (label === 'Home') {
       if (isAppPage && onNavigateToLanding) {
         onNavigateToLanding()
       } else {
@@ -64,15 +99,15 @@ const Navbar = ({ onNavigateToApp, onNavigateToLanding, isAppPage = false }) => 
   return (
     <>
       <motion.nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-400 border-b bg-slate-900/80 backdrop-blur-2xl ${
+        className={\`fixed top-0 left-0 right-0 z-50 transition-all duration-400 border-b bg-slate-900/80 backdrop-blur-2xl \${
           scrolled ? 'border-white/12 shadow-2xl shadow-black/40' : 'border-white/6'
-        }`}
+        }\`}
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-2 cursor-pointer" onClick={(e) => handleNavClick(e, '/', 'home')}>
+            <div className="flex items-center gap-2 cursor-pointer" onClick={(e) => handleNavClick(e, '/', 'Home')}>
               <Zap className="w-6 h-6 text-cyan-400" />
               <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                 ViralAI
@@ -82,8 +117,8 @@ const Navbar = ({ onNavigateToApp, onNavigateToLanding, isAppPage = false }) => 
             <div className="hidden md:flex items-center gap-1">
               {navItems.map((item) => (
                 <button
-                  key={item.id}
-                  onClick={(e) => handleNavClick(e, item.href, item.id)}
+                  key={item.label}
+                  onClick={(e) => handleNavClick(e, item.href, item.label)}
                   className="px-4 py-2 text-white/70 hover:text-white text-sm font-medium transition-colors rounded-lg hover:bg-white/5"
                 >
                   {item.label}
@@ -124,8 +159,8 @@ const Navbar = ({ onNavigateToApp, onNavigateToLanding, isAppPage = false }) => 
             <div className="flex flex-col gap-2">
               {navItems.map((item, i) => (
                 <motion.div
-                  key={item.id}
-                  onClick={(e) => handleNavClick(e, item.href, item.id)}
+                  key={item.label}
+                  onClick={(e) => handleNavClick(e, item.href, item.label)}
                   initial={{ opacity: 0, y: -8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 + i * 0.08, duration: 0.4 }}
@@ -156,3 +191,10 @@ const Navbar = ({ onNavigateToApp, onNavigateToLanding, isAppPage = false }) => 
 }
 
 export default Navbar
+`;
+
+  fs.writeFileSync(navbarFile, navbarContent);
+}
+
+fixZIndexes();
+console.log('Z-indexes and mobile menu restored successfully!');

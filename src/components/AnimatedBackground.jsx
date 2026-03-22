@@ -1,37 +1,37 @@
 import { motion } from 'framer-motion'
 
 const AnimatedBackground = () => {
-  // Orbs - faster durations (was 10+i*3, now 4+i*1.5)
+  // Orbs - slower durations for smooth floating
   const floatingVariants = {
     animate: (i) => ({
       y: [0, -50, 0],
       x: [0, 30 * Math.sin(i * 1.5), 0],
       rotate: [0, 360],
       transition: {
-        duration: 4 + i * 1.5,
+        duration: 8 + i * 3,
         repeat: Infinity,
         ease: 'easeInOut',
       },
     }),
   }
 
-  // Pulse orbs - faster (was 5+i, now 2+i*0.5)
+  // Pulse orbs - slower for smooth pulsing
   const pulseVariants = {
     animate: (i) => ({
       scale: [1, 1.4, 1],
       opacity: [0.3, 0.8, 0.3],
-      transition: { duration: 2 + i * 0.5, repeat: Infinity, ease: 'easeInOut' },
+      transition: { duration: 4 + i * 1, repeat: Infinity, ease: 'easeInOut' },
     }),
   }
 
-  // Drift blobs - faster (was 6+i*2, now 2.5+i*0.8)
+  // Drift blobs - slower for smooth drifting motion
   const driftVariants = {
     animate: (i) => ({
       x: [0, 70 * Math.cos(i), 0],
       y: [0, 50 * Math.sin(i), 0],
       opacity: [0.4, 0.9, 0.4],
       transition: {
-        duration: 2.5 + i * 0.8,
+        duration: 5 + i * 1.6,
         repeat: Infinity,
         ease: 'easeInOut',
         delay: i * 0.3,
@@ -39,7 +39,7 @@ const AnimatedBackground = () => {
     }),
   }
 
-  // Particles - faster (was 4+i%5, now 1.2+i%3*0.4)
+  // Particles - slower for gentle floating effect
   const particles = Array.from({ length: 20 }, (_, i) => ({
     id: i,
     x: `${(i * 23 + 7) % 100}%`,
@@ -47,7 +47,7 @@ const AnimatedBackground = () => {
     size: i % 3 === 0 ? 3 : i % 3 === 1 ? 2 : 1.5,
     color: i % 3 === 0 ? 'bg-purple-400' : i % 3 === 1 ? 'bg-pink-400' : 'bg-cyan-400',
     delay: i * 0.15,
-    duration: 1.2 + (i % 3) * 0.4,
+    duration: 2.4 + (i % 3) * 0.8,
   }))
 
   // Shapes - faster (was 6s, now 2.5s)
@@ -128,7 +128,7 @@ const AnimatedBackground = () => {
             rotate: s.type === 'diamond' ? [45, 100, 45] : [0, 20, 0],
             opacity: [0.4, 0.9, 0.4],
           }}
-          transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut', delay: s.delay }}
+          transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: s.delay }}
         >
           {s.type === 'diamond' ? (
             <div className={`border-2 ${s.color}`} style={{ width: s.size * 4, height: s.size * 4, transform: 'rotate(45deg)' }} />

@@ -20,9 +20,7 @@ const cardItem = {
 }
 
 // ── Demo Modal — rendered via portal directly on document.body ──
-// This escapes any overflow-hidden / transform stacking context
 const DemoModal = ({ onClose }) => {
-  // Lock body scroll while open
   useEffect(() => {
     document.body.style.overflow = 'hidden'
     const onKey = (e) => { if (e.key === 'Escape') onClose() }
@@ -37,7 +35,7 @@ const DemoModal = ({ onClose }) => {
     <AnimatePresence>
       <motion.div
         className="fixed inset-0 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
-        style={{ zIndex: 99999 }}
+        style={{ zIndex: 100 }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -51,7 +49,6 @@ const DemoModal = ({ onClose }) => {
           transition={{ type: 'spring', stiffness: 220, damping: 22 }}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Title bar */}
           <div className="flex items-center justify-between px-5 py-4 border-b border-white/10 bg-slate-800/60">
             <div className="flex items-center gap-2">
               <Zap className="w-4 h-4 text-cyan-400" />
@@ -65,17 +62,7 @@ const DemoModal = ({ onClose }) => {
             </button>
           </div>
 
-          {/* Video area — swap comment for real iframe when ready */}
           <div className="relative aspect-video bg-slate-950 flex items-center justify-center">
-            {/*
-              Replace this block with your real embed, e.g.:
-              <iframe
-                src="https://www.youtube.com/embed/YOUR_ID?autoplay=1"
-                className="absolute inset-0 w-full h-full"
-                allow="autoplay; fullscreen"
-                allowFullScreen
-              />
-            */}
             <div className="flex flex-col items-center gap-4 text-center px-8">
               <motion.div
                 animate={{ scale: [1, 1.12, 1] }}
@@ -120,14 +107,13 @@ const HeroSection = ({ onNavigateToApp }) => {
   ]
 
   return (
-    <section className="relative min-h-screen bg-gradient-to-b from-slate-900 via-slate-900 to-slate-800 overflow-hidden flex items-center justify-center pt-20">
+    <section className="relative min-h-screen bg-slate-900 overflow-hidden flex items-center justify-center pt-20">
       <AnimatedBackground />
 
       <motion.div
         style={{ y: heroY, opacity: heroOpacity }}
         className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
       >
-        {/* Badge */}
         <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={0} className="mb-6">
           <motion.div
             whileHover={{ scale: 1.06 }}
@@ -136,13 +122,12 @@ const HeroSection = ({ onNavigateToApp }) => {
             <motion.div animate={{ rotate: [0, 15, -15, 0] }} transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}>
               <Sparkles className="w-4 h-4 text-cyan-400" />
             </motion.div>
-            <span className="text-sm text-white/80">AI-Powered Viral Content Platform</span>
+            <span className="text-sm text-white/80">Creativity Begins</span>
           </motion.div>
         </motion.div>
 
-        {/* Headline */}
         <motion.h1
-          className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight"
+          className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight"
           variants={fadeUp} initial="hidden" animate="visible" custom={0.1}
         >
           Create Viral Content{' '}
@@ -152,15 +137,13 @@ const HeroSection = ({ onNavigateToApp }) => {
           🚀
         </motion.h1>
 
-        {/* Subheading */}
         <motion.p
-          className="text-xl text-white/70 max-w-2xl mx-auto mb-10 leading-relaxed"
+          className="text-lg sm:text-xl text-white/70 max-w-2xl mx-auto mb-10 leading-relaxed"
           variants={fadeUp} initial="hidden" animate="visible" custom={0.2}
         >
           AI-powered platform to generate ideas, scripts & trends that actually go viral. Used by 10,000+ creators worldwide.
         </motion.p>
 
-        {/* CTAs */}
         <motion.div
           className="flex flex-col sm:flex-row gap-4 justify-center mb-14"
           variants={fadeUp} initial="hidden" animate="visible" custom={0.3}
@@ -174,83 +157,21 @@ const HeroSection = ({ onNavigateToApp }) => {
             Start Creating
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </motion.button>
-
-          {/* Watch Demo — opens modal */}
-          <motion.button
-            onClick={() => setDemoOpen(true)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="group px-8 py-4 bg-white/10 border border-white/30 text-white font-bold rounded-lg backdrop-blur-md hover:bg-white/20 transition-all duration-300 flex items-center justify-center gap-2"
-          >
-            <motion.div
-              animate={{ scale: [1, 1.25, 1] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-              className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center"
-            >
-              <Play className="w-3 h-3 fill-white text-white ml-0.5" />
-            </motion.div>
-            Watch Demo
-          </motion.button>
         </motion.div>
 
-        {/* Stats row */}
         <motion.div
           className="flex flex-wrap justify-center gap-10 mb-14"
           variants={fadeUp} initial="hidden" animate="visible" custom={0.4}
         >
           {stats.map((s, i) => (
             <div key={i} className="text-center">
-              <div className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400">{s.value}</div>
+              <div className="text-2xl sm:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400">{s.value}</div>
               <div className="text-sm text-white/50 mt-1">{s.label}</div>
             </div>
           ))}
         </motion.div>
-
-        {/* Mock preview window */}
-        <motion.div
-          className="relative mx-auto max-w-4xl"
-          variants={fadeUp} initial="hidden" animate="visible" custom={0.5}
-        >
-          <div className="absolute -inset-4 bg-gradient-to-r from-purple-600/20 via-pink-600/20 to-cyan-600/20 rounded-3xl blur-2xl" />
-          <div className="relative bg-slate-800/80 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
-            {/* Window chrome */}
-            <div className="flex items-center gap-2 px-4 py-3 bg-slate-900/60 border-b border-white/10">
-              <span className="w-3 h-3 rounded-full bg-red-500/80" />
-              <span className="w-3 h-3 rounded-full bg-yellow-500/80" />
-              <span className="w-3 h-3 rounded-full bg-green-500/80" />
-              <span className="ml-4 text-xs text-white/30 font-mono">viralai.app — Idea Generator</span>
-            </div>
-            <div className="bg-slate-900 aspect-video flex items-center justify-center relative overflow-hidden">
-              <div className="absolute inset-6 flex flex-col gap-3 opacity-20">
-                {[80, 60, 90, 45, 70].map((w, i) => (
-                  <motion.div
-                    key={i}
-                    className="h-3 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"
-                    style={{ width: `${w}%` }}
-                    animate={{ opacity: [0.4, 1, 0.4] }}
-                    transition={{ duration: 1.5, delay: i * 0.2, repeat: Infinity }}
-                  />
-                ))}
-              </div>
-              {/* Clickable play button inside preview */}
-              <motion.button
-                onClick={() => setDemoOpen(true)}
-                animate={{ scale: [1, 1.08, 1], opacity: [0.5, 0.8, 0.5] }}
-                transition={{ duration: 2.5, repeat: Infinity }}
-                whileHover={{ scale: 1.15, opacity: 1 }}
-                className="relative z-10 flex flex-col items-center gap-3 cursor-pointer group"
-              >
-                <div className="w-16 h-16 rounded-full bg-white/10 border border-white/20 group-hover:bg-white/20 flex items-center justify-center transition-colors">
-                  <Play className="w-7 h-7 text-white/60 group-hover:text-white ml-1 fill-white/30 group-hover:fill-white transition-colors" />
-                </div>
-                <p className="text-white/40 group-hover:text-white/70 text-sm transition-colors">Watch Demo</p>
-              </motion.button>
-            </div>
-          </div>
-        </motion.div>
       </motion.div>
 
-      {/* Scroll indicator */}
       <motion.div
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
         animate={{ y: [0, 8, 0] }}
@@ -260,7 +181,6 @@ const HeroSection = ({ onNavigateToApp }) => {
         <div className="w-px h-8 bg-gradient-to-b from-white/30 to-transparent" />
       </motion.div>
 
-      {/* Demo Modal — portaled to body */}
       {demoOpen && <DemoModal onClose={() => setDemoOpen(false)} />}
     </section>
   )
@@ -279,7 +199,7 @@ const TrustSection = () => {
       >
         Trusted by creators, influencers & marketing teams
       </motion.p>
-      <div className="flex gap-12 animate-marquee whitespace-nowrap">
+      <div className="flex gap-12 animate-marquee whitespace-nowrap relative z-20">
         {[...brands, ...brands].map((brand, i) => (
           <div key={i} className="inline-flex items-center gap-2 text-white/30 font-semibold text-lg hover:text-white/60 transition-colors cursor-default">
             <Sparkles className="w-3 h-3 text-purple-400/40" />
@@ -307,7 +227,7 @@ const FeaturesSection = () => {
   ]
 
   return (
-    <section id="features" className="py-24 bg-gradient-to-b from-slate-900 to-slate-800 relative overflow-hidden">
+    <section id="features" className="py-24 bg-slate-900 relative overflow-hidden">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-white/10 to-transparent" />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -318,8 +238,8 @@ const FeaturesSection = () => {
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-bold uppercase tracking-widest mb-4">
             <Zap className="w-3 h-3" /> What We Offer
           </div>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">Powerful Features</h2>
-          <p className="text-xl text-white/60">Everything you need to create viral content</p>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">Powerful Features</h2>
+          <p className="text-base sm:text-xl text-white/60">Everything you need to create viral content</p>
         </motion.div>
 
         <motion.div
@@ -340,8 +260,8 @@ const FeaturesSection = () => {
                   <div className={`inline-flex p-3 rounded-xl bg-gradient-to-br ${feature.color} mb-5 shadow-inner`}>
                     <Icon className="w-6 h-6 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-2">{feature.title}</h3>
-                  <p className="text-white/60 leading-relaxed">{feature.description}</p>
+                  <h3 className="text-lg sm:text-xl font-bold text-white mb-2">{feature.title}</h3>
+                  <p className="text-sm sm:text-base text-white/60 leading-relaxed">{feature.description}</p>
                 </div>
                 <div className={`absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r ${feature.color} opacity-0 group-hover:opacity-40 transition-opacity`} />
               </motion.div>
@@ -376,8 +296,8 @@ const HowItWorksSection = () => {
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-bold uppercase tracking-widest mb-4">
             <Sparkles className="w-3 h-3" /> Simple Process
           </div>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">How It Works</h2>
-          <p className="text-xl text-white/60">Three simple steps to viral success</p>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">How It Works</h2>
+          <p className="text-base sm:text-xl text-white/60">Three simple steps to viral success</p>
         </motion.div>
 
         <div className="relative">
@@ -395,13 +315,13 @@ const HowItWorksSection = () => {
           >
             {steps.map((item, i) => (
               <motion.div key={i} variants={cardItem} className="relative text-center group">
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-7 h-7 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center text-white text-xs font-black shadow-lg shadow-purple-500/30">
+                <div className="absolute  -top-3 z-2 left-1/2 -translate-x-1/2 w-7 h-7 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center text-white text-xs font-black shadow-lg shadow-purple-500/30">
                   {item.step}
                 </div>
                 <div className="pt-8 pb-6 px-6 rounded-2xl bg-white/4 border border-white/8 backdrop-blur-sm group-hover:border-white/16 group-hover:bg-white/6 transition-all duration-300">
                   <motion.div whileHover={{ scale: 1.15, rotate: 8 }} className="text-6xl mb-5 inline-block">{item.icon}</motion.div>
-                  <h3 className="text-2xl font-bold text-white mb-2">{item.title}</h3>
-                  <p className="text-white/60">{item.desc}</p>
+                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">{item.title}</h3>
+                  <p className="text-sm sm:text-base text-white/60">{item.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -437,8 +357,8 @@ const UseCasesSection = () => {
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-500/10 border border-pink-500/20 text-pink-400 text-xs font-bold uppercase tracking-widest mb-4">
             <Users className="w-3 h-3" /> Who It's For
           </div>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">Use Cases</h2>
-          <p className="text-xl text-white/60">Designed for everyone who creates content</p>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">Use Cases</h2>
+          <p className="text-base sm:text-xl text-white/60">Designed for everyone who creates content</p>
         </motion.div>
 
         <div className="flex flex-wrap justify-center gap-3 mb-10">
@@ -471,9 +391,9 @@ const UseCasesSection = () => {
                 {useCases[active].icon}
               </motion.div>
               <div>
-                <h3 className="text-3xl font-bold text-white mb-3">{useCases[active].title}</h3>
-                <p className="text-xl text-white/80 mb-4 leading-relaxed">{useCases[active].benefit}</p>
-                <p className="text-white/50 leading-relaxed">{useCases[active].detail}</p>
+                <h3 className="text-2xl sm:text-3xl font-bold text-white mb-3">{useCases[active].title}</h3>
+                <p className="text-lg sm:text-xl text-white/80 mb-4 leading-relaxed">{useCases[active].benefit}</p>
+                <p className="text-sm sm:text-base text-white/50 leading-relaxed">{useCases[active].detail}</p>
               </div>
             </div>
             <div className="flex gap-2 mt-8 justify-center md:justify-start">
@@ -526,8 +446,8 @@ const TestimonialsSection = () => {
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 text-xs font-bold uppercase tracking-widest mb-4">
             <Star className="w-3 h-3 fill-yellow-400" /> Reviews
           </div>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">What Creators Say</h2>
-          <p className="text-xl text-white/60">Join thousands of satisfied users</p>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">What Creators Say</h2>
+          <p className="text-base sm:text-xl text-white/60">Join thousands of satisfied users</p>
         </motion.div>
 
         <div className="relative">
@@ -596,7 +516,7 @@ const RoadmapSection = () => {
   ]
 
   return (
-    <section id="roadmap" className="py-24 bg-gradient-to-b from-slate-900 to-slate-800 relative overflow-hidden">
+    <section id="roadmap" className="py-24 bg-slate-900 relative overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           className="text-center mb-16"
@@ -605,8 +525,8 @@ const RoadmapSection = () => {
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-widest mb-4">
             <TrendingUp className="w-3 h-3" /> What's Next
           </div>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">Future Vision</h2>
-          <p className="text-xl text-white/60">What's coming next to ViralAI</p>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">Future Vision</h2>
+          <p className="text-base sm:text-xl text-white/60">What's coming next to ViralAI</p>
         </motion.div>
 
         <div className="relative">
@@ -628,8 +548,8 @@ const RoadmapSection = () => {
                           {item.done ? '✓ ' : ''}{item.phase}
                         </span>
                       </div>
-                      <h3 className="text-2xl font-bold text-white mb-2">{item.title}</h3>
-                      <p className="text-white/60">{item.description}</p>
+                      <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">{item.title}</h3>
+                      <p className="text-sm sm:text-base text-white/60">{item.description}</p>
                     </div>
                   </motion.div>
                 </div>
@@ -671,7 +591,7 @@ const FinalCTASection = ({ onNavigateToApp }) => (
       </motion.div>
 
       <motion.h2
-        className="text-5xl sm:text-6xl font-bold text-white mb-6 leading-tight"
+        className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight"
         initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }} viewport={{ once: true }}
       >
@@ -682,7 +602,7 @@ const FinalCTASection = ({ onNavigateToApp }) => (
       </motion.h2>
 
       <motion.p
-        className="text-xl text-white/70 mb-10 max-w-xl mx-auto"
+        className="text-lg sm:text-xl text-white/70 mb-10 max-w-xl mx-auto"
         initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.1 }} viewport={{ once: true }}
       >
