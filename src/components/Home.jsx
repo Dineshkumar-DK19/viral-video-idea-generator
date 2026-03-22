@@ -55,7 +55,7 @@ function Dropdown({ label, value, setter, options }) {
 
       {/* Dropdown panel */}
       {open && (
-        <div className="absolute z-50 mt-1.5 w-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-2xl overflow-hidden">
+        <div className="absolute z-20 mt-1.5 w-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-2xl overflow-hidden">
           {options.map((o) => {
             const val = typeof o === "string" ? o : o.v;
             const lbl = typeof o === "string" ? o : o.l;
@@ -104,7 +104,7 @@ function IdeaCard({ idea, index }) {
   }
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
@@ -129,8 +129,8 @@ function IdeaCard({ idea, index }) {
             {idea.title}
           </h3>
         </div>
-        <button 
-          onClick={copyIdea} 
+        <button
+          onClick={copyIdea}
           className="shrink-0 flex items-center justify-center w-10 h-10 rounded-xl bg-white dark:bg-slate-700/50 border border-gray-200 dark:border-white/10 text-gray-500 dark:text-gray-300 hover:text-white hover:bg-purple-600 dark:hover:bg-purple-600 dark:hover:border-purple-500/50 transition-all shadow-sm"
           title="Copy Idea"
         >
@@ -139,7 +139,7 @@ function IdeaCard({ idea, index }) {
       </div>
 
       <div className="space-y-4 flex-grow text-sm relative z-10">
-        
+
         {/* Hook */}
         <div className="relative overflow-hidden p-5 rounded-2xl bg-gradient-to-br from-purple-500/5 to-pink-500/5 border border-purple-500/20 shadow-inner group-hover:border-purple-500/40 transition-colors">
           <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-purple-500 to-pink-500"></div>
@@ -153,7 +153,7 @@ function IdeaCard({ idea, index }) {
             <p className="text-[10px] text-pink-500 dark:text-pink-400 font-bold mb-2 uppercase tracking-wider flex items-center gap-1.5"><Zap className="w-3 h-3" /> Why It Goes Viral</p>
             <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-[13px]">{idea.viral_reason}</p>
           </div>
-          
+
           <div className="p-4 rounded-xl bg-white dark:bg-slate-900/50 border border-gray-200 dark:border-white/5 shadow-sm">
             <p className="text-[10px] text-cyan-500 dark:text-cyan-400 font-bold mb-2 uppercase tracking-wider flex items-center gap-1.5"><Sparkles className="w-3 h-3" /> Pro Tip</p>
             <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-[13px]">{idea.tip}</p>
@@ -183,8 +183,8 @@ function IdeaCard({ idea, index }) {
 
       {/* Script Section */}
       <div className="mt-6 pt-6 border-t border-gray-200 dark:border-white/10 relative z-10">
-        <button 
-          onClick={() => setScriptOpen(!scriptOpen)} 
+        <button
+          onClick={() => setScriptOpen(!scriptOpen)}
           className="w-full py-3.5 px-5 bg-gray-50 dark:bg-slate-900/80 hover:bg-gray-100 dark:hover:bg-slate-800 border border-gray-200 dark:border-white/10 text-gray-800 dark:text-white font-bold rounded-2xl transition-all duration-300 text-sm flex items-center justify-between group shadow-sm hover:shadow-purple-500/10"
         >
           <span className="flex items-center gap-3">
@@ -195,10 +195,10 @@ function IdeaCard({ idea, index }) {
           </span>
           <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform duration-300 ${scriptOpen ? "rotate-180 text-pink-400" : "rotate-0"}`} />
         </button>
-        
+
         <AnimatePresence>
           {scriptOpen && (
-            <motion.div 
+            <motion.div
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
@@ -384,7 +384,7 @@ export default function Home({ onNavigateToLanding }) {
             <p className="text-gray-500 dark:text-gray-400 text-lg">AI-powered concepts tailored for maximum virality.</p>
           </div>
 
-          <div className="relative z-99 grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
+          <div className="relative  grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
             <div className="md:col-span-2">
               <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Topic *</label>
               <input type="text" value={topic} onChange={(e) => setTopic(e.target.value)} onKeyDown={(e) => e.key === "Enter" && generateIdeas()}
