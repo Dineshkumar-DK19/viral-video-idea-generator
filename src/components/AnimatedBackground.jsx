@@ -39,8 +39,8 @@ const AnimatedBackground = () => {
     }),
   }
 
-  // Particles - slower for gentle floating effect
-  const particles = Array.from({ length: 20 }, (_, i) => ({
+  // Particles - optimized amount
+  const particles = Array.from({ length: 12 }, (_, i) => ({
     id: i,
     x: `${(i * 23 + 7) % 100}%`,
     y: `${(i * 17 + 11) % 100}%`,
@@ -65,28 +65,28 @@ const AnimatedBackground = () => {
 
       {/* ── Large gradient orbs ── */}
       <motion.div
-        custom={0} animate="animate" variants={floatingVariants}
-        className="absolute top-10 -left-20 w-[500px] h-[500px] rounded-full blur-[120px] bg-purple-600/25 mix-blend-screen"
+        custom={0} animate="animate" variants={floatingVariants} style={{ willChange: 'transform, opacity' }}
+        className="absolute top-10 -left-20 w-[500px] h-[500px] rounded-full blur-3xl bg-purple-600/30"
       />
       <motion.div
-        custom={1} animate="animate" variants={floatingVariants}
-        className="absolute bottom-20 -right-20 w-[450px] h-[450px] rounded-full blur-[100px] bg-pink-500/20 mix-blend-screen"
+        custom={1} animate="animate" variants={floatingVariants} style={{ willChange: 'transform, opacity' }}
+        className="absolute bottom-20 -right-20 w-[450px] h-[450px] rounded-full blur-3xl bg-pink-500/25"
       />
       <motion.div
-        custom={2} animate="animate" variants={floatingVariants}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] rounded-full blur-[80px] bg-cyan-400/10 mix-blend-screen"
+        custom={2} animate="animate" variants={floatingVariants} style={{ willChange: 'transform, opacity' }}
+        className="absolute top-1/2 left-1/2 w-[350px] h-[350px] rounded-full blur-3xl bg-cyan-400/20 -translate-x-1/2 -translate-y-1/2"
       />
       <motion.div
-        custom={3} animate="animate" variants={floatingVariants}
-        className="absolute top-1/4 right-1/3 w-[280px] h-[280px] rounded-full blur-[90px] bg-indigo-500/15 mix-blend-screen"
+        custom={3} animate="animate" variants={floatingVariants} style={{ willChange: 'transform, opacity' }}
+        className="absolute top-1/4 right-1/3 w-[280px] h-[280px] rounded-full blur-3xl bg-indigo-500/20"
       />
 
       {/* ── Pulsing mid orbs ── */}
       {[0, 1, 2].map((i) => (
         <motion.div
           key={`pulse-${i}`}
-          custom={i} animate="animate" variants={pulseVariants}
-          className={`absolute w-56 h-56 rounded-full blur-2xl
+          custom={i} animate="animate" variants={pulseVariants} style={{ willChange: 'transform, opacity' }}
+          className={`absolute w-56 h-56 rounded-full blur-xl
             ${i === 0 ? 'top-1/4 left-1/4 bg-blue-500/10'
               : i === 1 ? 'top-2/3 right-1/3 bg-purple-400/10'
               : 'bottom-1/4 right-1/4 bg-pink-500/10'}`}
@@ -94,15 +94,14 @@ const AnimatedBackground = () => {
       ))}
 
       {/* ── Drifting accent blobs ── */}
-      {[0, 1, 2, 3].map((i) => (
+      {[0, 1, 2].map((i) => (
         <motion.div
           key={`drift-${i}`}
-          custom={i} animate="animate" variants={driftVariants}
+          custom={i} animate="animate" variants={driftVariants} style={{ willChange: 'transform, opacity' }}
           className={`absolute w-32 h-32 rounded-full blur-xl
             ${i === 0 ? 'top-[60%] left-[20%] bg-cyan-500/10'
               : i === 1 ? 'top-[10%] right-[30%] bg-purple-500/10'
-              : i === 2 ? 'bottom-[15%] left-[40%] bg-pink-500/10'
-              : 'top-[35%] right-[20%] bg-blue-400/10'}`}
+              : 'bottom-[15%] left-[40%] bg-pink-500/10'}`}
         />
       ))}
 
@@ -110,7 +109,7 @@ const AnimatedBackground = () => {
       {particles.map((p) => (
         <motion.div
           key={p.id}
-          style={{ position: 'absolute', left: p.x, top: p.y }}
+          style={{ position: 'absolute', left: p.x, top: p.y, willChange: 'transform, opacity' }}
           animate={{ y: [0, -25, 0], opacity: [0.3, 1, 0.3], scale: [1, 1.6, 1] }}
           transition={{ duration: p.duration, repeat: Infinity, ease: 'easeInOut', delay: p.delay }}
         >
@@ -122,13 +121,13 @@ const AnimatedBackground = () => {
       {shapes.map((s, i) => (
         <motion.div
           key={`shape-${i}`}
-          style={{ position: 'absolute', top: s.top, left: s.left, right: s.right }}
+          style={{ position: 'absolute', top: s.top, left: s.left, right: s.right, willChange: 'transform, opacity' }}
           animate={{
             y: [0, -18, 0],
             rotate: s.type === 'diamond' ? [45, 100, 45] : [0, 20, 0],
             opacity: [0.4, 0.9, 0.4],
           }}
-          transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: s.delay }}
+          transition={{ duration: s.type === 'diamond' ? 5 : 6, repeat: Infinity, ease: 'easeInOut', delay: s.delay }}
         >
           {s.type === 'diamond' ? (
             <div className={`border-2 ${s.color}`} style={{ width: s.size * 4, height: s.size * 4, transform: 'rotate(45deg)' }} />
