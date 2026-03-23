@@ -371,9 +371,11 @@ export default function Home({ onNavigateToLanding }) {
         </section>
 
         {/* HERO INPUT */}
-        <section className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-gray-800 rounded-3xl p-6 md:p-10 shadow-xl mb-12 relative overflow-hidden transition-colors duration-300">
-          <div className="absolute -top-24 -right-24 w-48 h-48 bg-purple-600/20 rounded-full blur-3xl pointer-events-none"></div>
-          <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-pink-500/20 rounded-full blur-3xl pointer-events-none"></div>
+        <section className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-gray-800 rounded-3xl p-6 md:p-10 shadow-xl mb-12 relative transition-colors duration-300">
+          <div className="absolute inset-0 overflow-hidden rounded-3xl pointer-events-none">
+            <div className="absolute -top-24 -right-24 w-48 h-48 bg-purple-600/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-pink-500/20 rounded-full blur-3xl pointer-events-none"></div>
+          </div>
 
           <div className="relative z-10 text-center mb-10">
             <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-4 tracking-tight">
@@ -384,7 +386,7 @@ export default function Home({ onNavigateToLanding }) {
             <p className="text-gray-500 dark:text-gray-400 text-lg">AI-powered concepts tailored for maximum virality.</p>
           </div>
 
-          <div className="relative  grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
+          <div className="relative z-20 grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
             <div className="md:col-span-2">
               <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Topic *</label>
               <input type="text" value={topic} onChange={(e) => setTopic(e.target.value)} onKeyDown={(e) => e.key === "Enter" && generateIdeas()}
